@@ -96,7 +96,7 @@ wolf_fem_p3 = ["ni", "nia", "ta", "wa", "ni"]
 # dictionary with races - keys are available races, entries are lists of list with the names.
 # each entry should have 2 lists - 1st with the name part lists for male, 2nd for female
 races_dict = {"Human": [[human_male_p1, human_male_p2, human_male_p3],
-                        [human_fem_p1, human_fem_p2, human_male_p3]],
+                        [human_fem_p1, human_fem_p2, human_fem_p3]],
               "Dwarf": [[dwarf_male_p1, dwarf_male_p2, dwarf_male_p3],
                         [dwarf_fem_p1, dwarf_fem_p2, dwarf_fem_p3]],
               "Elf": [[elf_male_p1, elf_male_p2, elf_male_p3],
@@ -112,6 +112,8 @@ races_dict = {"Human": [[human_male_p1, human_male_p2, human_male_p3],
               "Wolfling": [[wolf_male_p1, wolf_male_p2, wolf_male_p3],
                            [wolf_fem_p1, wolf_fem_p2, wolf_fem_p3]]}
 
+bad_name_patterns = [r"nm$", r"anng$"]
+
 number_names = 100 # currently not used
 
 max_number_retries = 10
@@ -122,6 +124,7 @@ save_names = True # currently not used
 from random import shuffle
 import easygui as egui
 import csv
+import regex as re
 
 # Menu for setting parameters
 race = egui.buttonbox("For what race do you want to generate names?",
@@ -175,6 +178,14 @@ for i in range(number_names):
             name_ok = True
             generated_names_li.append(name)
 
+        # make sure name does not have a "bad" (unpronouncable, etc) pattern
+        if name_ok:
+            for pattern in bad_name_patterns:
+                if re.match(pattern, name):
+                    name_ok = False
+                    number_retries += 1
+                    break  
+
     if number_retries >= max_number_retries:
         break
 
@@ -182,11 +193,12 @@ gen_names_str = '\n'.join(generated_names_li)
 gen_names_msg = "Generated Names for {} {}:\n\n{}".format(gender, race, gen_names_str)
 egui.msgbox(gen_names_msg)
 
-save_names = egui.ynbox(msg="Do you want to save the names to a *.csv file?",title = "Save to file?")
+## option to save to csv toggled off for now, might not be that useful for most people
+# save_names = egui.ynbox(msg="Do you want to save the names to a *.csv file?",title = "Save to file?")
 
-if save_names:
-    save_file_name = egui.filesavebox(
-        title="Choose location to save name list", filetypes="*.csv")
-    with open(save_file_name, 'w') as save_file:
-        wr = csv.writer(save_file, delimiter="\n")
-        wr.writerow(generated_names_li)
+# if save_names:
+#     save_file_name = egui.filesavebox(
+#         title="Choose location to save name list", filetypes="*.csv")
+#     with open(save_file_name, 'w') as save_file:
+#         wr = csv.writer(save_file, delimiter="\n")
+#         wr.writerow(generated_names_li)
