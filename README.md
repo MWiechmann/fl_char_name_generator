@@ -2,7 +2,7 @@
 A name generator for the forbidden lands TTRPG. Based on names from official _German_ publications (currently core set and Raven's Purge). Will generate names for any of the playable races.
 
 ## How to use
-Run the script or the exe file. You will be asked for the race and gender to generate names for, and how many names to generate.
+Download and run the [script](https://github.com/MWiechmann/fl_char_name_generator/blob/main/name_generator.py) or the [exe file](https://github.com/MWiechmann/fl_char_name_generator/raw/main/name_generator.exe). You will be asked for the race and gender to generate names for, and how many names to generate.
 After the names have been generated you have the option to save these to a csv-file.
 
 These names are generated in a relatively simple manner (see below), so some names might be unusable/unpronouncable. Still, the majority of the generated names should be usable.
